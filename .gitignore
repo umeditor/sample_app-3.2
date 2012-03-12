@@ -16,3 +16,10 @@
 
 # Ignore bundler_stubs
 /bundler_stubs
+
+# Ignore other unneeded files.
+doc/
+*.swp
+*~
+.project
+.DS_Store
