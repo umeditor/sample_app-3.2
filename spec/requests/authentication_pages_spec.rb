@@ -37,6 +37,17 @@ describe "Authentication" do
       it { should have_link('Sign out', href: signout_path) }
 
       it { should_not have_link('Sign in', href: signin_path) }
+      
+      describe "submitting a request to the Users#new action should redirect to root_path" do
+        before { get new_user_path }
+        specify { response.should redirect_to(root_path) }
+      end
+      
+      describe "submitting a request to the Users#create action should redirect to root_path" do
+        before { post users_path }
+        specify { response.should redirect_to(root_path) }
+      end
+      
       describe "followed by signout" do
         before { click_link "Sign out" }
         it { should have_link('Sign in') }
