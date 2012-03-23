@@ -16,6 +16,14 @@
       <%= yield %>
       <%= render 'layouts/footer' %>
       <%= debug(params) if Rails.env.development? %>
+      <% if Rails.env.development? %>
+        <pre class="debug_dump">
+Method: <%= request.method() %>
+body: <%= request.body() %>
+remote_ip: <%= request.remote_ip() %>
+uuid: <%= request.uuid() %>
+        </pre>
+      <% end %>
     </div>
   </body>
 </html>
