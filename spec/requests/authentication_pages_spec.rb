@@ -37,17 +37,17 @@ describe "Authentication" do
       it { should have_link('Sign out', href: signout_path) }
 
       it { should_not have_link('Sign in', href: signin_path) }
-      
+
       describe "submitting a request to the Users#new action should redirect to root_path" do
         before { get new_user_path }
         specify { response.should redirect_to(root_path) }
       end
-      
+
       describe "submitting a request to the Users#create action should redirect to root_path" do
         before { post users_path }
         specify { response.should redirect_to(root_path) }
       end
-      
+
       describe "followed by signout" do
         before { click_link "Sign out" }
         it { should have_link('Sign in') }
@@ -67,7 +67,23 @@ describe "Authentication" do
       end
 
       let(:user) { FactoryGirl.create(:user) }
-      
+
+      describe "in the Microposts controller" do
+
+        describe "submitting to the create action" do
+          before { post microposts_path }
+          specify { response.should redirect_to(signin_path) }
+        end
+
+        describe "submitting to the destroy action" do
+          before do
+            micropost = FactoryGirl.create(:micropost)
+            delete micropost_path(micropost)
+          end
+          specify { response.should redirect_to(signin_path) }
+        end
+      end
+
       describe "when attempting to visit a protected page" do
         before do
           visit edit_user_path(user)
@@ -81,7 +97,7 @@ describe "Authentication" do
           it "should render the desired protected page" do
             page.should have_selector('title', text: 'Edit user')
           end
-          
+
           describe "when signing in again" do
             before do
               visit signin_path
@@ -89,7 +105,7 @@ describe "Authentication" do
               fill_in "Password", with: user.password
               click_button "Sign in"
             end
-            
+
             it "should render the default (profile) page" do
               page.should have_selector('title', text: user.name)
             end

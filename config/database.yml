@@ -4,7 +4,8 @@
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
 development:
-  adapter: postgresql
+  #adapter: postgresql
+  adapter: sqlite3
   database: rails_development
   encoding: utf8
   pool: 5
@@ -14,7 +15,8 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test: &test
-  adapter: postgresql
+  #adapter: postgresql
+  adapter: sqlite3
   database: rails_test
   encoding: utf8
   pool: 5
